@@ -16,7 +16,7 @@ options {
 
         stage('Login'){
             steps{
-                //withCredentials([usernamePassword(credentialsId: 'mle-template', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
+                //withCredentials([usernamePassword(credentialsId: 'MLOps-lab-2', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
                 //sh 'echo %DOCKER_REGISTRY_PWD% | docker login -u %DOCKER_REGISTRY_USER% --password-stdin'}
                 //sh 'echo %DOCKERHUB_CREDS_PSW% | docker login -u %DOCKERHUB_CREDS_USR% --password-stdin'
                 sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW'
@@ -26,7 +26,7 @@ options {
         stage('Pull image'){
             steps{
                 sh '''
-                        docker pull kupaqu/mle-template:latest
+                        docker pull kupaqu/MLOps-lab-2:latest
                 '''
             }
         }
@@ -34,7 +34,7 @@ options {
         stage('Run container'){
             steps{
                 sh '''
-                        docker run --name mle-template -p 80:5556 -d kupaqu/mle-template:latest
+                        docker run --name MLOps-lab-2 -p 80:5556 -d kupaqu/MLOps-lab-2:latest
                 '''
             }
         }
@@ -42,7 +42,7 @@ options {
 
     post {
         always {
-            sh 'docker stop mle-template && docker remove mle-template && docker logout'
+            sh 'docker stop MLOps-lab-2 && docker remove MLOps-lab-2 && docker logout'
         }
     }
 }

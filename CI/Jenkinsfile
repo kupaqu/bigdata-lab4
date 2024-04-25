@@ -17,19 +17,19 @@ options {
             steps {
                 cleanWs()
 		sh 'git config --global http.postBuffer 157286400'
-                sh 'git clone -b main https://github.com/kupaqu/mle-template.git'
+                sh 'git clone -b main https://github.com/kupaqu/MLOps-lab-2.git'
 				}
 			}
 
         stage('Checkout repo dir') {
             steps {
-                sh 'cd mle-template && dir'
+                sh 'cd MLOps-lab-2 && dir'
 				}
 			}
 
         stage('Login'){
             steps{
-                //withCredentials([usernamePassword(credentialsId: 'mle-template', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
+                //withCredentials([usernamePassword(credentialsId: 'MLOps-lab-2', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
                 //sh 'echo $DOCKER_REGISTRY_PWD | docker login -u $DOCKER_REGISTRY_USER --password-stdin'}
                 //sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'
                 sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW'
@@ -40,12 +40,12 @@ options {
             steps {
                 script {
                     try {
-                        sh 'cd mle-template && docker compose build'
+                        sh 'cd MLOps-lab-2 && docker compose build'
                         }
 
                     finally {
                     sh '''
-                        cd mle-template
+                        cd MLOps-lab-2
                         docker compose up -d
                         '''
                         }
@@ -56,14 +56,14 @@ options {
         // use for multi containers:
         //docker exec %containerId% cd app && coverage run src/unit_tests/test_preprocess.py && coverage run -a src/unit_tests/test_training.py && coverage report -m
         //use for single container (with auth):
-        //docker run --name mle-template_web_1 cd app && coverage run src/unit_tests/test_preprocess.py && coverage run -a src/unit_tests/test_training.py && coverage report -m
+        //docker run --name MLOps-lab-2_web_1 cd app && coverage run src/unit_tests/test_preprocess.py && coverage run -a src/unit_tests/test_training.py && coverage report -m
 
         /* stage('Checkout container logs') {
             steps {
-                dir("mle-template") {
+                dir("MLOps-lab-2") {
                         sh '''
                             docker-compose up -d
-                            for /f %%i in ('docker ps -qf "name=^mle-template-web-1"') do set containerId=%%i
+                            for /f %%i in ('docker ps -qf "name=^MLOps-lab-2-web-1"') do set containerId=%%i
                             echo %containerId%
                             IF "%containerId%" == "" (
                                 echo "No container running"
@@ -78,7 +78,7 @@ options {
 
         stage('Checkout coverage report'){
             steps{
-                dir("mle-template"){
+                dir("MLOps-lab-2"){
                     sh '''
                     docker compose logs -t --tail 10
                     '''
@@ -88,7 +88,7 @@ options {
 
         stage('Push'){
             steps{
-                sh 'docker push kupaqu/mle-template:latest'
+                sh 'docker push kupaqu/MLOps-lab-2:latest'
             }
         }
 	}
