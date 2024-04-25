@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+   web:
+       build:
+          dockerfile: model.dockerfile
+       command: bash -c "python src/preprocess.py && python src/train.py && python src/predict.py -m LR -t func && coverage run src/unit_tests/test_preprocess.py && coverage run -a src/unit_tests/test_training.py && coverage report -m && uvicorn src.app:app --host 0.0.0.0 --port 8000"
+       ports:
+           - 8000:8000
+       image: kupaqu/mle-template:latest
