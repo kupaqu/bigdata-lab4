@@ -16,7 +16,7 @@ options {
 
         stage('Login'){
             steps{
-                //withCredentials([usernamePassword(credentialsId: 'MLOps-lab-2', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
+                //withCredentials([usernamePassword(credentialsId: 'mlops-lab-2', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
                 //sh 'echo %DOCKER_REGISTRY_PWD% | docker login -u %DOCKER_REGISTRY_USER% --password-stdin'}
                 //sh 'echo %DOCKERHUB_CREDS_PSW% | docker login -u %DOCKERHUB_CREDS_USR% --password-stdin'
                 sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW'
@@ -42,7 +42,7 @@ options {
 
     post {
         always {
-            sh 'docker stop MLOps-lab-2 && docker remove MLOps-lab-2 && docker logout'
+            sh 'docker stop mlops-lab-2 && docker remove mlops-lab-2 && docker logout'
         }
     }
 }
