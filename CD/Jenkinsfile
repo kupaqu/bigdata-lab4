@@ -26,7 +26,7 @@ options {
         stage('Pull image'){
             steps{
                 sh '''
-                        docker pull kupaqu/MLOps-lab-2:latest
+                        docker pull kupaqu/mlops-lab-2:latest
                 '''
             }
         }
@@ -34,7 +34,7 @@ options {
         stage('Run container'){
             steps{
                 sh '''
-                        docker run --name MLOps-lab-2 -p 80:5556 -d kupaqu/MLOps-lab-2:latest
+                        docker run --name mlops-lab-2 -p 80:5556 -d kupaqu/mlops-lab-2:latest
                 '''
             }
         }

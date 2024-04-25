@@ -17,7 +17,7 @@ options {
             steps {
                 cleanWs()
 		sh 'git config --global http.postBuffer 157286400'
-                sh 'git clone -b main https://github.com/kupaqu/MLOps-lab-2.git'
+                sh 'git clone -b main https://github.com/kupaqu/mlops-lab-2.git'
 				}
 			}
 
@@ -88,7 +88,7 @@ options {
 
         stage('Push'){
             steps{
-                sh 'docker push kupaqu/MLOps-lab-2:latest'
+                sh 'docker push kupaqu/mlops-lab-2:latest'
             }
         }
 	}
