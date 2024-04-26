@@ -1,0 +1,7 @@
+model: LR
+model params:
+  path: /home/buda/MLOps-lab-2/models/lr.sav
+tests: func
+score: '1.0'
+X_test_path: /home/buda/MLOps-lab-2/data/X_test.csv
+y_test_path: /home/buda/MLOps-lab-2/data/y_test.csv

@@ -1,9 +1,36 @@
-import numpy as np
-import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from logger import Logger
+
+import numpy as np
+import pandas as pd
 import joblib
 import os
+import json
+import uuid
+
+from hbase.rest_client import HBaseRESTClient
+from hbase.admin import HBaseAdmin
+from hbase.put import Put
+from hbase.get import Get
+
+SHOW_LOG = True
+
+# logger
+logger = Logger(SHOW_LOG)
+log = logger.get_logger(__name__)
+
+# hbase connection
+client = HBaseRESTClient(['http://localhost:8081'])
+admin = HBaseAdmin(client)
+put = Put(client)
+get = Get(client)
+log.info('Connected to HBase.')
+
+# table check
+tables = json.loads(admin.tables())
+admin.table_create_or_update("request", [{"name":"r"}])
+log.info('Table "request" created.')
 
 # Создаем экземпляр FastAPI
 app = FastAPI()
@@ -17,7 +44,7 @@ model = joblib.load(model_path)
 # Определяем класс Pydantic модели для входных данных
 class InputData(BaseModel):
     X: list
-    y: list
+    # y: list
 
 # Определяем эндпоинт для предсказаний
 @app.post("/predict/")
@@ -27,10 +54,24 @@ async def predict(input_data: InputData):
         df = pd.DataFrame(input_data.X, columns=[str(i) for i in range(len(input_data.X[0]))])
 
         # Выполняем предсказание
-        predictions = model.predict(df)
+        predictions = model.predict(df).tolist()
 
         # Формируем ответ
-        response = {"predictions": predictions.tolist()}
+        response = {"predictions": predictions}
+
+        # логирование в hbase
+        row_key = str(uuid.uuid4())
+        put.put(
+            tbl_name="request",
+            row_key=str(uuid.uuid4()),
+            cell_map={
+                "r:X": df.to_string(),
+                "r:pred": str(predictions[0])
+            }
+        )
+        
+        # log.info(get.get(tbl_name="request", row_key=row_key))
+
         return response
 
     except Exception as e:
