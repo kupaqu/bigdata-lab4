@@ -21,7 +21,7 @@ logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
 # hbase connection
-client = HBaseRESTClient(['http://0.0.0.0:8081'])
+client = HBaseRESTClient(['http://0.0.0.0:8080'])
 admin = HBaseAdmin(client)
 put = Put(client)
 get = Get(client)
