@@ -21,7 +21,7 @@ logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
 # hbase connection
-client = HBaseRESTClient(['http://localhost:8080'])
+client = HBaseRESTClient(['http://hbase-container:55080'])
 admin = HBaseAdmin(client)
 put = Put(client)
 get = Get(client)
@@ -63,7 +63,7 @@ async def predict(input_data: InputData):
         row_key = str(uuid.uuid4())
         put.put(
             tbl_name="request",
-            row_key=str(uuid.uuid4()),
+            row_key=row_key,
             cell_map={
                 "r:X": df.to_string(),
                 "r:pred": str(predictions[0])

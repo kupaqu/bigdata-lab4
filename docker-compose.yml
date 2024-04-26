@@ -6,12 +6,26 @@ services:
         command: bash -c "python src/preprocess.py && python src/train.py && python src/predict.py -m LR -t func && coverage run src/unit_tests/test_preprocess.py && coverage run -a src/unit_tests/test_training.py && coverage report -m && uvicorn src.app:app --host 0.0.0.0 --port 8000"
         ports:
             - 8000:8000
+        hostname: model-container
         image: kupaqu/mlops-lab-2:latest
         depends_on:
             - hbase
+        networks:
+            - lab
 
     hbase:
         image: dajobe/hbase:latest
-        command: 
         ports:
-            - 8081:8080
+            - 55080:8080
+        hostname: hbase-container
+        extra_hosts:
+            - model-container:model-container
+        networks:   
+            lab:
+                aliases:
+                    - model-container
+
+networks:
+    lab:
+        name: lab
+        external: true
