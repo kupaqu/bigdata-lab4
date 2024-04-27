@@ -21,7 +21,7 @@ logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
 # hbase connection
-client = HBaseRESTClient(['http://hbase-container:55080'])
+client = HBaseRESTClient(['http://hbase-container:50080'])
 admin = HBaseAdmin(client)
 put = Put(client)
 get = Get(client)

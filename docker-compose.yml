@@ -14,16 +14,18 @@ services:
             - lab
 
     hbase:
-        image: dajobe/hbase:latest
+        # image: dajobe/hbase:latest
+        image: harisekhon/hbase
         ports:
             - 55080:8080
         hostname: hbase-container
-        extra_hosts:
-            - model-container:model-container
-        networks:   
-            lab:
-                aliases:
-                    - model-container
+        # extra_hosts:
+        #     - model-container:model-container
+        networks: 
+            - lab  
+            # lab:
+            #     aliases:
+            #         - model-container
 
 networks:
     lab:
