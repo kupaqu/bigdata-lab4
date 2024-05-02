@@ -45,7 +45,7 @@ options {
         stage('Run container'){
             steps{
                 sh '''
-                        docker run --name mlops-lab-2 -v /.temp-env:/app/.env -d kupaqu/mlops-lab-2:latest
+                        docker run --name mlops-lab-2 --mount /.temp-env:/app/.env -d kupaqu/mlops-lab-2:latest
                 '''
             }
         }
