@@ -34,7 +34,7 @@ options {
 	
 	stage('Prepare environment') {
             steps {
-		sh 'rm /.temp-env || true'
+		sh 'rm .env || true'
                 sh 'echo "DB_HOST=clickhouse" >> .env'
                 sh 'echo "DB_PORT=8123" >> .env'
                 sh 'echo "DB_USR=${DB_CREDS_USR}" >> .env'
