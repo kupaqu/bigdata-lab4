@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDS=credentials('dockerhub-creds')
+	DB_CREDS=credentials('db_creds')
         LC_ALL = "en_US.UTF-8"
         LANG    = "en_US.UTF-8"
         LANGUAGE = "en_US.UTF-8"
@@ -20,6 +21,14 @@ options {
                 sh 'git clone -b main https://github.com/kupaqu/mlops-lab-2.git'
 				}
 			}
+	stage('Prepare environment') {
+            steps {
+                sh 'echo "DB_HOST=clickhouse" >> mlops-lab-2/.env'
+                sh 'echo "DB_PORT=8123" >> mlops-lab-2/.env'
+                sh 'echo "DB_USR=${DB_CREDS_USR}" >> mlops-lab-2/.env'
+                sh 'echo "DB_PW=${DB_CREDS_PSW}" >> mlops-lab-2/.env'
+                 }
+            }
 
         stage('Checkout repo dir') {
             steps {
