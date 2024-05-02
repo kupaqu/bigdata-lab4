@@ -7,12 +7,7 @@ import pandas as pd
 import joblib
 import os
 import json
-import uuid
-
-from hbase.rest_client import HBaseRESTClient
-from hbase.admin import HBaseAdmin
-from hbase.put import Put
-from hbase.get import Get
+import src.database
 
 SHOW_LOG = True
 
@@ -20,17 +15,8 @@ SHOW_LOG = True
 logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
-# hbase connection
-client = HBaseRESTClient(['http://hbase-container:50080'])
-admin = HBaseAdmin(client)
-put = Put(client)
-get = Get(client)
-log.info('Connected to HBase.')
-
-# table check
-tables = json.loads(admin.tables())
-admin.table_create_or_update("request", [{"name":"r"}])
-log.info('Table "request" created.')
+# Подключаемся к кликхаузу
+db = src.database.Database()
 
 # Создаем экземпляр FastAPI
 app = FastAPI()
@@ -59,18 +45,7 @@ async def predict(input_data: InputData):
         # Формируем ответ
         response = {"predictions": predictions}
 
-        # логирование в hbase
-        row_key = str(uuid.uuid4())
-        put.put(
-            tbl_name="request",
-            row_key=row_key,
-            cell_map={
-                "r:X": df.to_string(),
-                "r:pred": str(predictions[0])
-            }
-        )
-        
-        # log.info(get.get(tbl_name="request", row_key=row_key))
+        db.insert("predictions", input_data.X[0], int(predictions[0]))
 
         return response
 
