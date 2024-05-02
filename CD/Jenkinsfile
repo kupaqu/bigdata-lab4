@@ -35,17 +35,17 @@ options {
 	stage('Prepare environment') {
             steps {
 		sh 'rm /.temp-env || true'
-                sh 'echo "DB_HOST=clickhouse" >> /.temp-env'
-                sh 'echo "DB_PORT=8123" >> /.temp-env'
-                sh 'echo "DB_USR=${DB_CREDS_USR}" >> /.temp-env'
-                sh 'echo "DB_PW=${DB_CREDS_PSW}" >> /.temp-env'
+                sh 'echo "DB_HOST=clickhouse" >> .env'
+                sh 'echo "DB_PORT=8123" >> .env'
+                sh 'echo "DB_USR=${DB_CREDS_USR}" >> .env'
+                sh 'echo "DB_PW=${DB_CREDS_PSW}" >> .env'
                  }
             }
 
         stage('Run container'){
             steps{
                 sh '''
-                        docker run --name mlops-lab-2 --mount /.temp-env:/app/.env -d kupaqu/mlops-lab-2:latest
+                        docker run --name mlops-lab-2 --v "$(pwd)"/.env:/app/.env -d kupaqu/mlops-lab-2:latest
                 '''
             }
         }
