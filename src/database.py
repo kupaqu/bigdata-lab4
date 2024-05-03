@@ -10,7 +10,7 @@ from logger import Logger
 SHOW_LOG = True
 
 class Database():
-    def __init__(self, secrets=None):
+    def __init__(self, secrets):
         logger = Logger(SHOW_LOG)
         self.log = logger.get_logger(__name__)
 
