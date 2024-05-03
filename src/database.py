@@ -24,10 +24,10 @@ class Database():
             password = secrets['db_pw']
             if password is None:
                 password = ''
-            self.log.info(f"host: {host}")
-            self.log.info(f"port: {port}")
-            self.log.info(f"username: {username}")
-            self.log.info(f"password: {password}")
+            # self.log.info(f"host: {host}")
+            # self.log.info(f"port: {port}")
+            # self.log.info(f"username: {username}")
+            # self.log.info(f"password: {password}")
         else:
             host = os.getenv('DB_HOST')
             port = int(os.getenv('DB_PORT'))
