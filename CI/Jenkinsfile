@@ -25,7 +25,7 @@ options {
 			}
 	    stage('Decrypt secrets.yml') {
             steps {
-                sh 'echo $ANSIBLE_CREDS_PSW > pw.txt'
+                sh 'cd mlops-lab-2 && echo $ANSIBLE_CREDS_PSW > pw.txt'
                 sh 'cd mlops-lab-2 && ansible-vault decrypt secrets.yml --vault-password-file pw.txt -v'
                 }
             }
