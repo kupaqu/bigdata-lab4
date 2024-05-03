@@ -3,7 +3,7 @@ import yaml
 import os
 
 project_path = os.getcwd()
-with open(os.path.join(project_path, 'secrets.yaml')) as f:
+with open(os.path.join(project_path, 'secrets.yml')) as f:
     secrets = yaml.safe_load(f)
 db = database.Database(secrets=secrets)
 db.create_database("lab2")
