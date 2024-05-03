@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from src.logger import Logger
-from kafka import Kafka
+from src.kafka import Kafka
 
 import numpy as np
 import pandas as pd
