@@ -35,6 +35,7 @@ services:
             - KAFKA_BROKER_ID=1
             - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093
             - ALLOW_PLAINTEXT_LISTENER=yes
+            - KAFKA_CFG_NODE_ID=0
     
     ui:
         image: provectuslabs/kafka-ui:latest
