@@ -10,8 +10,6 @@ services:
         image: kupaqu/mlops-lab-2:latest
         depends_on:
             - clickhouse
-        env_file:
-            - .env
     
     clickhouse:
         hostname: clickhouse

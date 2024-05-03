@@ -10,16 +10,23 @@ from logger import Logger
 SHOW_LOG = True
 
 class Database():
-    def __init__(self):
+    def __init__(self, secrets=None):
         logger = Logger(SHOW_LOG)
         self.log = logger.get_logger(__name__)
 
         self.log.info("Connecting to ClickHouse...")
         # TODO: написать креды вручную
-        host = os.getenv('DB_HOST')
-        port = int(os.getenv('DB_PORT'))
-        username = os.getenv('DB_USR')
-        password = os.getenv('DB_PW')
+
+        if secrets:
+            host = secrets['db_host']
+            port = secrets['db_port']
+            username = secrets['db_usr']
+            password = secrets['db_pw']
+        else:
+            host = os.getenv('DB_HOST')
+            port = int(os.getenv('DB_PORT'))
+            username = os.getenv('DB_USR')
+            password = os.getenv('DB_PW')
 
         self.client = clickhouse_connect.get_client(host=host, username=username, port=port, password=password)
         self.log.info("Connected.")
