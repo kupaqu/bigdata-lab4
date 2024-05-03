@@ -21,6 +21,7 @@ services:
 
     kafka:
         hostname: kafka
+        container: kafka
         image: bitnami/kafka:latest
         ports:
             - 9092:9092
@@ -31,7 +32,7 @@ services:
             - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
             - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://localhost:9094
             # - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL://localhost:9094
-            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,EXTERNAL://localhost:9094
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://0.0.0.0:9092,EXTERNAL://localhost:9094
             - KAFKA_CFG_NODE_ID=1
             - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 # должен совпадать с kafka_cfg_node_id
             - ALLOW_PLAINTEXT_LISTENER=yes
