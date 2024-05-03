@@ -5,8 +5,8 @@ pipeline {
         DOCKERHUB_CREDS=credentials('dockerhub-creds')
 	    DB_CREDS=credentials('db_creds')
         ANSIBLE_CREDS=credentials('ansible-creds')
-        // LC_ALL= "C.UTF-8"
-        LC_ALL = "en_US.UTF-8"
+        LC_ALL= "C.UTF-8"
+        // LC_ALL = "en_US.UTF-8"
         LANG    = "en_US.UTF-8"
         LANGUAGE = "en_US.UTF-8"
     }
