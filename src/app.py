@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from src.logger import Logger
+from kafka import Kafka
 
 import numpy as np
 import pandas as pd
@@ -16,7 +17,6 @@ SHOW_LOG = True
 logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
-
 # Создаем экземпляр FastAPI
 app = FastAPI()
 
@@ -30,6 +30,15 @@ with open(os.path.join(project_path, 'secrets.yml')) as f:
 
 # Подключаемся к кликхаузу
 db = src.database.Database(secrets)
+
+# Подключаемся к кафке
+kafka = Kafka()
+
+def db_listener(data):
+    value = data.value
+    db.insert_data("predictions", value['X'], value['pred'])
+
+kafka.register_kafka_listener(db_listener)
 
 # Определяем класс Pydantic модели для входных данных
 class InputData(BaseModel):
@@ -47,9 +56,10 @@ async def predict(input_data: InputData):
         predictions = model.predict(df).tolist()
 
         # Формируем ответ
-        response = {"predictions": predictions}
-
-        db.insert("predictions", input_data.X[0], int(predictions[0]))
+        # response = {"predictions": predictions}
+        # db.insert("predictions", input_data.X[0], int(predictions[0]))
+        response = {'table': 'predictions', 'X': input_data.X[0], 'pred': int(predictions[0])}
+        kafka.send(response)
 
         return response
 

@@ -37,9 +37,6 @@ class Database():
         self.client = clickhouse_connect.get_client(host=host, username=username, port=port, password=password)
         self.log.info("Connected.")
 
-    def create_database(self, database_name):
-        self.client.command(f"""CREATE DATABASE IF NOT EXISTS {database_name};""")
-        self.log.info(f"Created {database_name} database.")
 
     def create_table(self, table_name: str, columns: Dict):
         cols = ""
@@ -75,3 +72,7 @@ class Database():
     def table_exists(self, table_name: str):
         self.log.info(f"Checking if table {table_name} exists...")
         return self.client.query_df(f'EXISTS {table_name}')
+    
+    def create_database(self, database_name):
+        self.client.command(f"""CREATE DATABASE IF NOT EXISTS {database_name};""")
+        self.log.info(f"Created {database_name} database.")

@@ -11,3 +11,4 @@ pydantic==2.6.4
 uvicorn==0.29.0
 clickhouse-connect==0.7.8
 ansible==6.7.0
+kafka_python==2.0.2
