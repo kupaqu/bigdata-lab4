@@ -21,7 +21,9 @@ class Database():
             host = secrets['db_host']
             port = secrets['db_port']
             username = secrets['db_usr']
-            password = str(secrets['db_pw'])
+            password = secrets['db_pw']
+            if password is None:
+                password = ''
             self.log.info(f"host: {host}")
             self.log.info(f"port: {port}")
             self.log.info(f"username: {username}")
