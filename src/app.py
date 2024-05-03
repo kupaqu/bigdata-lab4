@@ -8,6 +8,7 @@ import joblib
 import os
 import json
 import src.database
+import yaml
 
 SHOW_LOG = True
 
@@ -15,8 +16,6 @@ SHOW_LOG = True
 logger = Logger(SHOW_LOG)
 log = logger.get_logger(__name__)
 
-# Подключаемся к кликхаузу
-db = src.database.Database()
 
 # Создаем экземпляр FastAPI
 app = FastAPI()
@@ -26,6 +25,11 @@ project_path = os.getcwd()
 models_path = os.path.join(project_path, 'models')
 model_path = os.path.join(models_path, "lr.sav")
 model = joblib.load(model_path)
+with open(os.path.join(project_path, 'secrets.yml')) as f:
+    secrets = yaml.safe_load(f)
+
+# Подключаемся к кликхаузу
+db = src.database.Database(secrets)
 
 # Определяем класс Pydantic модели для входных данных
 class InputData(BaseModel):
