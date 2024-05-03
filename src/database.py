@@ -22,6 +22,10 @@ class Database():
             port = secrets['db_port']
             username = secrets['db_usr']
             password = secrets['db_pw']
+            self.log.info(f"host: {host}")
+            self.log.info(f"port: {port}")
+            self.log.info(f"username: {username}")
+            self.log.info(f"password: {password}")
         else:
             host = os.getenv('DB_HOST')
             port = int(os.getenv('DB_PORT'))
