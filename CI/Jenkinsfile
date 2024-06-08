@@ -20,19 +20,19 @@ options {
             steps {
                 cleanWs()
 		sh 'git config --global http.postBuffer 157286400'
-                sh 'git clone -b main https://github.com/kupaqu/bigdata-lab2.git'
+                sh 'git clone -b main https://github.com/kupaqu/bigdata-lab4.git'
 				}
 			}
 	    stage('Decrypt secrets.yml') {
             steps {
-                sh 'cd bigdata-lab2 && echo $ANSIBLE_CREDS_PSW > pw.txt'
-                sh 'cd bigdata-lab2 && ansible-vault decrypt secrets.yml --vault-password-file pw.txt -v'
+                sh 'cd bigdata-lab4 && echo $ANSIBLE_CREDS_PSW > pw.txt'
+                sh 'cd bigdata-lab4 && ansible-vault decrypt secrets.yml --vault-password-file pw.txt -v'
                 }
             }
 
         stage('Checkout repo dir') {
             steps {
-                sh 'cd bigdata-lab2 && dir'
+                sh 'cd bigdata-lab4 && dir'
 				}
 			}
 
@@ -49,12 +49,12 @@ options {
             steps {
                 script {
                     try {
-                        sh 'cd bigdata-lab2 && docker compose build'
+                        sh 'cd bigdata-lab4 && docker compose build'
                         }
 
                     finally {
                     sh '''
-                        cd bigdata-lab2
+                        cd bigdata-lab4
                         docker compose up -d
                         '''
                         }
@@ -87,7 +87,7 @@ options {
 
         stage('Checkout coverage report'){
             steps{
-                dir("bigdata-lab2"){
+                dir("bigdata-lab4"){
                     sh '''
                     docker compose logs -t --tail 10
                     '''
@@ -97,7 +97,7 @@ options {
 
         stage('Push'){
             steps{
-                sh 'docker push kupaqu/mlops-lab-2:latest'
+                sh 'docker push kupaqu/bigdata-lab4:latest'
             }
         }
 	}
