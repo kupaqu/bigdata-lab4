@@ -14,10 +14,7 @@ class Kafka:
         self.log = logger.get_logger(__name__)
 
         # bootstrap_server = os.getenv('KAFKA_CFG_ADVERTISED_LISTENERS').split('//')[-1]
-        # bootstrap_server = 'kafka:9092'
-        host = os.getenv('KAFKA_HOST')
-        port = os.getenv('KAFKA_PORT')
-        bootstrap_server = f'{host}:{port}'
+        bootstrap_server = 'kafka:9092'
         self.bootstrap_servers = [bootstrap_server]
         
         self.admin_client = KafkaAdminClient(bootstrap_servers=self.bootstrap_servers)
