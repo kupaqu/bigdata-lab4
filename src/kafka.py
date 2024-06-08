@@ -49,7 +49,7 @@ class Kafka:
     def send(self, data: dict):
         self.producer.send(self.topic_name, data)
         self.producer.flush()
-        self.log.info(f"Sent data: , {self.data}")
+        self.log.info(f"Sent data: , {data}")
 
     # https://stackoverflow.com/questions/53263393/is-there-a-python-api-for-event-driven-kafka-consumer
     def register_kafka_listener(self, listener):
