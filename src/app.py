@@ -36,7 +36,7 @@ kafka = Kafka()
 
 def db_listener(data):
     value = data.value
-    db.insert_data("predictions", value['X'], value['pred'])
+    db.insert("predictions", value['X'], value['pred'])
 
 kafka.register_kafka_listener(db_listener)
 
