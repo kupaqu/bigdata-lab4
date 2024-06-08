@@ -27,7 +27,7 @@ options {
         stage('Pull image'){
             steps{
                 sh '''
-                        docker pull kupaqu/mlops-lab-2:latest
+                        docker pull kupaqu/bigdata-lab4:latest
                 '''
             }
         }
@@ -45,7 +45,7 @@ options {
         stage('Run container'){
             steps{
                 sh '''
-                        docker run --name mlops-lab-2 -d kupaqu/mlops-lab-2:latest
+                        docker run --name bigdata-lab4 -d kupaqu/bigdata-lab4:latest
                 '''
             }
         }
@@ -53,7 +53,7 @@ options {
 
     post {
         always {
-            sh 'docker stop mlops-lab-2 && docker remove mlops-lab-2 && docker logout'
+            sh 'docker stop bigdata-lab4 && docker remove bigdata-lab4 && docker logout'
         }
     }
 }
