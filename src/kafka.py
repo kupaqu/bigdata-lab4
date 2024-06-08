@@ -14,7 +14,10 @@ class Kafka:
         self.log = logger.get_logger(__name__)
 
         # bootstrap_server = os.getenv('KAFKA_CFG_ADVERTISED_LISTENERS').split('//')[-1]
-        bootstrap_server = 'kafka:9092'
+        # bootstrap_server = 'kafka:9092'
+        host = os.getenv('KAFKA_HOST')
+        port = os.getenv('KAFKA_PORT')
+        bootstrap_server = f'{host}:{port}'
         self.bootstrap_servers = [bootstrap_server]
         
         self.admin_client = KafkaAdminClient(bootstrap_servers=self.bootstrap_servers)
@@ -49,6 +52,7 @@ class Kafka:
     def send(self, data: dict):
         self.producer.send(self.topic_name, data)
         self.producer.flush()
+        self.log.info(f"Sent data: , {self.data}")
 
     # https://stackoverflow.com/questions/53263393/is-there-a-python-api-for-event-driven-kafka-consumer
     def register_kafka_listener(self, listener):
