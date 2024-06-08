@@ -7,7 +7,7 @@ services:
         ports:
             - 8000:8000
         hostname: model-container
-        image: kupaqu/mlops-lab-2:latest
+        image: kupaqu/bigdata-lab4:latest
         depends_on:
             - clickhouse
     
