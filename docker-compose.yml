@@ -21,7 +21,6 @@ services:
 
     kafka:
         hostname: kafka
-        container: kafka
         image: bitnami/kafka:latest
         ports:
             - 9092:9092
